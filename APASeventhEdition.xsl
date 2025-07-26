@@ -1605,6 +1605,14 @@
     <xsl:value-of select="/*/b:Locals/b:Local[@LCID=$_LCID]/b:General/b:ListSeparator"/>
   </xsl:template>
 
+  <xsl:template name="formatMediumInBrackets">
+    <xsl:if test="string-length(b:Medium) > 0">
+      <xsl:call-template name="templ_prop_Space"/>
+      <xsl:call-template name="templ_prop_APA_SecondaryOpen"/>
+      <xsl:value-of select="b:Medium"/>
+      <xsl:call-template name="templ_prop_APA_SecondaryClose"/>
+    </xsl:if>
+  </xsl:template>
   
   <xsl:template name="templ_prop_Dot" >
     <xsl:param name="LCID" />
@@ -5014,15 +5022,17 @@
                             <xsl:value-of select="$enclosedDateDot"/>
                           </xsl:if>
 
-                          <xsl:if test="string-length($titleDot)>0">
+                          <xsl:if test="string-length(b:Title)>0">
                             <xsl:call-template name="templ_prop_Space"/>
                             <xsl:call-template name = "ApplyItalicTitleNS">
                               <xsl:with-param name = "data">
-                                <xsl:value-of select="$titleDot"/>
+                                <xsl:value-of select="b:Title"/>
                               </xsl:with-param>
                             </xsl:call-template>
-                          </xsl:if>
 
+                            <xsl:call-template name="formatMediumInBrackets"/>
+                            <xsl:call-template name="templ_prop_Dot"/>
+                          </xsl:if>
                           <xsl:if test="string-length($theEditorAndTranslatorDot)>0">
                             <xsl:call-template name="templ_prop_Space"/>
                             <xsl:value-of select="$theEditorAndTranslatorDot"/>
